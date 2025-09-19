@@ -17,6 +17,11 @@
             gap: 4px;
         }
         
+        .gallery a {
+            display: block;
+            text-decoration: none;
+        }
+        
         .gallery img {
             width: 100%;
             height: 250px;
@@ -27,7 +32,7 @@
         
         .gallery img:hover {
             opacity: 0.8;
-            cursor: zoom-in;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -37,6 +42,9 @@
     </div>
 
     <script>
+        // Ссылка на ваш Telegram (ЗАМЕНИТЕ НА СВОЮ)
+        const telegramLink = 'https://t.me/linka_pirinka';
+        
         // Список картинок которые нужно показать
         const images = [
             '9х43.jpg',
@@ -55,20 +63,35 @@
 			'25х15.jpg',
 			'30х15.jpg',
 			'9х43.jpg',
+			'30х20.jpg',
+			'30х30 (2).jpg',
+			'30х30(1).jpg',
+			'30х30.jpg',
+			'33х23.jpg',
             // Добавьте сюда названия ВСЕХ ваших файлов картин
             // 'название-файла.jpg',
         ];
         
         const gallery = document.getElementById('gallery');
         
-        // Создаем img элемент для каждой картинки
+        // Создаем ссылку с картинкой для каждой картины
         images.forEach(imageName => {
+            // Создаем ссылку
+            const link = document.createElement('a');
+            link.href = telegramLink;
+            link.target = '_blank'; // Открывает в новой вкладке
+            
+            // Создаем картинку
             const img = document.createElement('img');
             img.src = `images/${imageName}`;
-            img.alt = ''; // Можно оставить пустым
-            gallery.appendChild(img);
+            img.alt = '';
+            
+            // Добавляем картинку внутрь ссылки
+            link.appendChild(img);
+            
+            // Добавляем ссылку в галерею
+            gallery.appendChild(link);
         });
     </script>
 </body>
 </html>
-
