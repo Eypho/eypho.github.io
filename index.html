@@ -3,42 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Галерея моих картин</title>
-    <!-- Подключаем файл стилей -->
-    <link rel="stylesheet" href="style.css">
+    <title>Мои картины</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 4px;
+        }
+        
+        .gallery img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery img:hover {
+            opacity: 0.8;
+            cursor: zoom-in;
+        }
+    </style>
 </head>
 <body>
+    <div class="gallery" id="gallery">
+        <!-- Картинки будут добавляться автоматически через JavaScript -->
+    </div>
 
-    <header>
-        <h1>Моя художественная галерея</h1>
-        <p>Добро пожаловать на мой сайт-портфолио. Здесь вы можете ознакомиться со всеми моими работами.</p>
-    </header>
-
-    <main class="gallery">
-        <!-- Начинаем добавлять картины -->
-        <!-- ЗАМЕНИТЕ "kartina-1.jpg" на реальные названия ваших файлов! -->
-        <div class="painting">
-            <img src="images/kartina-1.jpg" alt="Описание первой картины">
-            <p class="title">Название картины #1</p>
-        </div>
-
-        <div class="painting">
-            <img src="images/kartina-2.jpg" alt="Описание второй картины">
-            <p class="title">Название картины #2</p>
-        </div>
-
-        <div class="painting">
-            <img src="images/kartina-3.jpg" alt="Описание третьей картины">
-            <p class="title">Название картины #3</p>
-        </div>
-
-        <!-- Добавьте столько блоков <div class="painting">...</div>, сколько у вас есть картин -->
-
-    </main>
-
-    <footer>
-        <p>Свяжитесь со мной: my.email@example.com</p>
-    </footer>
-
+    <script>
+        // Список картинок которые нужно показать
+        const images = [
+            '9х43.jpg',
+            '15х12.jpg', 
+            '15х20.jpg',
+            '18х21.jpg',
+            '20х15.jpg',
+			'20х20.jpg',
+			'20х40.jpg',
+			'20х45.jpg',
+			'24х10.jpg',
+			'25,5х15.jpg',
+            // Добавьте сюда названия ВСЕХ ваших файлов картин
+            // 'название-файла.jpg',
+        ];
+        
+        const gallery = document.getElementById('gallery');
+        
+        // Создаем img элемент для каждой картинки
+        images.forEach(imageName => {
+            const img = document.createElement('img');
+            img.src = `images/${imageName}`;
+            img.alt = ''; // Можно оставить пустым
+            gallery.appendChild(img);
+        });
+    </script>
 </body>
 </html>
