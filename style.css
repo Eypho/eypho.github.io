@@ -1,0 +1,49 @@
+/* style.css */
+
+/* Общие стили для страницы */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+
+header, footer {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Стили для галереи */
+.gallery {
+    display: grid; /* Включаем грид-раскладку */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Волшебная строка, создающая адаптивную сетку */
+    gap: 20px; /* Расстояние между карточками */
+}
+
+/* Стили для каждой карточки с картиной */
+.painting {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease; /* Плавное увеличение при наведении */
+}
+
+.painting:hover {
+    transform: scale(1.02); /* Эффект увеличения при наведении курсора */
+}
+
+/* Стили для самого изображения */
+.painting img {
+    max-width: 100%; /* Картинка не будет вылезать за пределы карточки */
+    height: auto; /* Сохраняем пропорции */
+    border-radius: 5px;
+    display: block;
+}
+
+/* Стили для названия под картинкой */
+.title {
+    font-weight: bold;
+    margin-top: 10px;
+}
