@@ -9,88 +9,344 @@
             margin: 0;
             padding: 0;
             background: #000;
+            font-family: Arial, sans-serif;
         }
         
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 4px;
-        }
+		.gallery {
+			column-count: 5; /* количество колонок */
+			column-gap: 8px;
+		}
+
+		.gallery img {
+			width: 100%;
+			margin-bottom: 8px;
+			display: block;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: transform 0.3s ease;
+		}
+
+		.gallery img:hover {
+			transform: scale(1.03);
+		}
         
-        .gallery a {
-            display: block;
-            text-decoration: none;
-        }
-        
-        .gallery img {
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
             width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-            transition: opacity 0.3s ease;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
-        .gallery img:hover {
-            opacity: 0.8;
+        .modal-content {
+            max-width: 90%;
+            max-height: 70vh;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+        
+        .modal-info {
+            background: #2c3e50; /* колір фона вікошка */
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 400px;
+			max-height: 200px;
+            width: 90%;
+            text-align: center;
+            margin-bottom: 20px;
+            color: white; /* Белый текст для темного фона */
+        }
+        
+        .close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: white;
+            font-size: 45px;
+            font-weight: bold;
             cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .close:hover {
+            color: #ccc;
+        }
+        
+        .buy-btn {
+            background: #0088cc;
+            color: white;
+            padding: 16px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+        
+        .buy-btn:hover {
+            background: #006699;
+            transform: translateY(-2px);
+        }
+        
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fffa88;
+            margin: 15px 0;
+        }
+        
+        .description {
+            color: #ffffff;
+            margin: 12px 0;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        .size {
+            color: #7f8c8d;
+            font-style: italic;
+            margin: 10px 0;
+        }
+
+        /* Анимация появления */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-info {
+            animation: slideUp 0.4s ease-out;
         }
     </style>
 </head>
 <body>
     <div class="gallery" id="gallery">
-        <!-- Картинки будут добавляться автоматически через JavaScript -->
+        <!-- Картинки будут добавляться автоматически -->
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-info" id="modalInfo">
+            <!-- Информация будет добавляться через JS -->
+        </div>
     </div>
 
     <script>
-        // Ссылка на ваш Telegram (ЗАМЕНИТЕ НА СВОЮ)
-        const telegramLink = 'https://t.me/linka_pirinka';
-        
-        // Список картинок которые нужно показать
-        const images = [
-            '9х43.jpg',
-            '15х12.jpg', 
-            '15х20.jpg',
-            '18х21.jpg',
-            '20х15.jpg',
-			'20х20.jpg',
-			'20х40.jpg',
-			'20х45.jpg',
-			'24х10.jpg',
-			'25,5х15.jpg',
-			'25х10.jpg',
-			'25х15(1).jpg',
-			'25х15,5.jpg',
-			'25х15.jpg',
-			'30х15.jpg',
-			'9х43.jpg',
-			'30х20.jpg',
-			'30х30 (2).jpg',
-			'30х30(1).jpg',
-			'30х30.jpg',
-			'33х23.jpg',
-            // Добавьте сюда названия ВСЕХ ваших файлов картин
-            // 'название-файла.jpg',
+        // Данные о картинах (ЗАМЕНИТЕ НА СВОИ)
+const tl = 'https://t.me/linka_pirinka'
+        const paintingsData = [
+            {
+                image: '9х43.jpg',
+                price: '1 500 грн',
+                description: 'Зелені діти світу',
+                size: '9х43 см',
+                telegramLink: tl
+            },
+            {
+                image: '15х12.jpg',
+                price: '1 000 грн',
+                description: 'Конваллія',
+                size: '15х12 см', 
+                telegramLink: tl
+            },
+            {
+                image: '15х20.jpg',
+                price: '1 800 грн',
+                description: 'Діточки суккуленти',
+                size: '15х20 см',
+                telegramLink: tl
+            },
+            {
+                image: '18х21.jpg',
+                price: '3 000 грн',
+                description: 'Трояндочка',
+                size: '18х21 см',
+                telegramLink: tl
+            },
+            {
+                image: '20х15.jpg',
+                price: '1 500 грн',
+                description: 'Гранат кохання',
+                size: '20х15 см',
+                telegramLink: tl
+            },
+			{
+                image: '20х20.jpg',
+                price: '2 000 грн',
+                description: 'Багряна жоржинка',
+                size: '20х20 см',
+                telegramLink: tl
+            },
+			{
+                image: '20х40.jpg',
+                price: '3 000 грн',
+                description: 'Хурма насолоди',
+                size: '20х40 см',
+                telegramLink: tl
+            },
+			{
+                image: '20х45.jpg',
+                price: '3 000 грн',
+                description: 'Алоє',
+                size: '20х45 см',
+                telegramLink: tl
+            },
+			{
+                image: '24х10.jpg',
+                price: '2 500 грн',
+                description: 'Цвіт амаранта',
+                size: '24х10 см',
+                telegramLink: tl
+            },
+			{
+                image: '25,5х15.jpg',
+                price: '2 500 грн',
+                description: 'Автопортрет',
+                size: '25,5х15 см',
+                telegramLink: tl
+            },
+			{
+                image: '25х10.jpg',
+                price: '2 500 грн',
+                description: 'Мої домашні друзі',
+                size: '25х10 см',
+                telegramLink: tl
+            },
+			{
+                image: '25х15(1).jpg',
+                price: '2 000 грн',
+                description: 'Авокадо',
+                size: '25х15 см',
+                telegramLink: tl
+            },
+			{
+                image: '25х15,5.jpg',
+                price: '2 600 грн',
+                description: 'Автопортрет',
+                size: '25х15 см',
+                telegramLink: tl
+            },
+			{
+                image: '25х15.jpg',
+                price: '1 000 грн',
+                description: 'Без назви',
+                size: '25х15 см',
+                telegramLink: tl
+            },
+			{
+                image: '30х15.jpg',
+                price: '1 500 грн',
+                description: 'Зустріч',
+                size: '30х15 см',
+                telegramLink: tl
+            },
+			{
+                image: '30х20.jpg',
+                price: '2 400 грн',
+                description: 'Три друга',
+                size: '30х20 см',
+                telegramLink: tl
+            },
+			{
+                image: '30х30 (2).jpg',
+                price: '4 000 грн',
+                description: 'Орхідея',
+                size: '30х30 см',
+                telegramLink: tl
+            },
+			{
+                image: '30х30(1).jpg',
+                price: '4 000 грн',
+                description: 'Гранати',
+                size: '30х30 см',
+                telegramLink: tl
+            },
+			{
+                image: '30х30.jpg',
+                price: '2 000 грн',
+                description: 'Без назви',
+                size: '30х30 см',
+                telegramLink: tl
+            },
+			{
+                image: '33х23.jpg',
+                price: '2 500 грн',
+                description: 'Крим',
+                size: '33х23 см',
+                telegramLink: tl
+            },
+            // Добавьте данные для всех своих картин
         ];
         
         const gallery = document.getElementById('gallery');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalInfo = document.getElementById('modalInfo');
+        const closeBtn = document.querySelector('.close');
         
-        // Создаем ссылку с картинкой для каждой картины
-        images.forEach(imageName => {
-            // Создаем ссылку
-            const link = document.createElement('a');
-            link.href = telegramLink;
-            link.target = '_blank'; // Открывает в новой вкладке
-            
-            // Создаем картинку
+        // Создаем галерею
+        paintingsData.forEach(painting => {
             const img = document.createElement('img');
-            img.src = `images/${imageName}`;
-            img.alt = '';
+            img.src = `images/${painting.image}`;
+            img.alt = painting.description;
+            img.onclick = () => openModal(painting);
+            gallery.appendChild(img);
+        });
+        
+        // Открыть модальное окно
+        function openModal(painting) {
+            modalImage.src = `images/${painting.image}`;
             
-            // Добавляем картинку внутрь ссылки
-            link.appendChild(img);
+            modalInfo.innerHTML = `
+                <div class="price">${painting.price}</div>
+                <div class="description">${painting.description}</div>
+                <div class="size">Розмір полотна: ${painting.size}</div>
+                <a href="${painting.telegramLink}" target="_blank" class="buy-btn">🛒 Купити в Telegram</a>
+            `;
             
-            // Добавляем ссылку в галерею
-            gallery.appendChild(link);
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Закрыть модальное окно
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Закрыть по клику вне картинки
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // Закрыть по клавише ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         });
     </script>
 </body>
